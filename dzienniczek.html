@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section id="przyciski">
+        <div id="row">
+
+            <button id="dane">Dane osobowe</button>
+            <button id="report">Sprawozdania</button>
+            <button id="podsum">Podsumowanie</button>
+        </div>
+    </section>
+    <br>
+    <form id="top">
+        <section class="info">
+            <label> Imie
+                <input type="text" id="imie"  >
+            </label>
+            <label> Nazwisko
+                <input type="text" id="nazwisko"  >
+            </label>
+            <br>
+            <br>
+            <label>Klasa
+                <input type="text" id="klasa"  >
+            </label>
+            <label>Rok szkolny 
+                <input type="text" id="rok_szk"  >
+            </label>
+            <br>
+            <br>
+            <label>Odnytej w:
+                <input type="text" id="mesto"  >
+            </label>
+        </section>
+        <br>
+        <br>
+        <section class="kiedy">
+            <label>Od:
+                <input type="date" id="od"  >
+            </label>
+            <label>Do:                                                                                                          
+                <input type="date" id="do"  >
+            </label>
+        </section>
+        <br>
+        <button type="submit" id="main_btn" class="btn">Zapisz Dane</button>
+        <button type="reset" class="btn">Wyczyść Dane</button>
+    </form>
+    <section id="main">
+        <form class="form_main">
+            <label>Data
+                <input type="date" id="data">
+            </label>
+            <br>
+            <label>dział
+                <select name="dział" id="dział">
+                    <option value="Strony internetowe">Strony internetowe</option>
+                    <option value="Bazy danych">Bazy danych</option>
+                    <option value="Serwery">Serwery</option>
+                </select>
+            </label>
+            <label>Temat
+                <select name="Temat" id="Temat">
+                    
+                </select>
+            </label>
+            <br>
+            <label>opiekun
+                <input type="text" id="opiekun">
+            </label>
+            <label>Ilośc godzin (0-8)
+                <input type="number" id="il_gdz" min="0" max="8">
+            </label>
+            <br>
+            <label>opis
+                <br>
+                <textarea id="opis" rows="5" cols="15"></textarea>
+            </label>
+            <br>
+            <button id="btn_sprawoz">Zatwierdź</button>
+        </form>
+        <div id="wypisz"></div>
+    </section>
+    
+    <script>    
+        const main_btn = document.querySelector("#main_btn")
+        const btn1 = document.querySelector("#btn_sprawoz")
+        const help_btn = document.querySelector("#help")
+        const temat = document.querySelector("#Temat")
+        const data = document.querySelector("#data")
+        const dział = document.querySelector("#dział")
+        const opiekun = document.querySelector("#opiekun")
+        const godziny = document.querySelector("#il_gdz")
+        const opis = document.querySelector("#opis")
+        const display = document.querySelector("#wypisz")
+
+        
+
+        function wypisz_wsio()
+        {
+           display.innerHTML = ``
+            // for (const key in sprawoz)  {
+            //     display.innerHTML += `<p> ${key} = ${sprawoz[key]}</p>`
+            //     // display.innerHTML = temat.value
+            // }
+        }
+        
+        // const sprawoz = {
+        //     topic: "1",
+        //     date: "2",
+        //     division: "3",
+        //     superwizjer: "4",
+        //     hours: "5",
+        //     description: "6"
+        // }
+
+        // sprawoz.topic = temat.value; 
+        // sprawoz.description = opis.value; 
+        function select()
+        {
+                let tab = ["Projektowanie Stron Figma","Projektowanie Stron HTML","Zarządzanie bazą mysql","DHCP i DNS","SAMBA","Acess","CSS i oscylowanie" ];
+                for(let i = 0; i<=tab.length-1; i++){
+                    let opt = document.createElement('option');
+                    opt.value = tab[i];
+                    console.log(opt.innerHTML = tab[i])
+                    temat.appendChild(opt);
+                }
+                    
+        }
+        function ukryj(){
+            let ukr = document.querySelector("#top")
+            ukr.style.display = "none"
+        }
+        function wypisz(){
+            let wyp = document.querySelector("#wypisz")
+            wyp.style.display = "inline"
+        }
+        function wypisz_dane(){
+            let wyp_dan = document.querySelector("#top")
+            wyp_dan.style.display = "flex"
+        }
+        
+        function wyp_main(){
+            let mn = document.querySelector("#main")
+            mn.style.display = "flex"
+        }
+        function ukryj_rap(){
+            let ukr = document.querySelector("#main")
+            ukr.style.display = "none"
+        }
+
+        main_btn.addEventListener("click", function(evt){
+            evt.preventDefault();
+            ukryj()
+            wyp_main()
+        })
+        select();
+
+        btn1.addEventListener("click",function(evt){
+            evt.preventDefault();
+            wypisz_wsio();
+        })
+        const dane = document.querySelector("#dane")
+        const raport = document.querySelector("#report")
+        const podsum = document.querySelector("#podsum")
+        dane.addEventListener("click",function(evt){
+            wypisz_dane()
+            ukryj_rap()
+        })
+        raport.addEventListener("click",function(evt){
+            
+            ukryj()
+            wyp_main()
+        })
+    </script>   
+    <style>
+        #main{
+            display: none;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: center;
+            
+        }
+        #top{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: center;
+
+        }
+        .btn{
+            width: 75px;
+        }
+        #przyciski{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction:column;
+            align-content: center;
+        }
+        #row{
+            display: inline;
+        }
+    </style>
+</body>
+</html>
