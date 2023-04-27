@@ -75,7 +75,7 @@
                 <input type="text" id="opiekun">
             </label>
             <label>Ilośc godzin (0-8)
-                <input type="number" id="il_gdz" min="0" max="8">
+                <input type="number" id="il_gdz" min="0" max="8" value="0">
             </label>
             <br>
             <label>opis
@@ -85,8 +85,30 @@
             <br>
             <button id="btn_sprawoz">Zatwierdź</button>
         </form>
-        <div id="wypisz"></div>
+        <table id="wypisz"></table>
     </section>
+
+        <section id="summary">
+            <table>
+                <tr>
+                    <th>Dział:</th>
+                    <th>Ilość godzin:</th>
+                </tr>
+                <tr>
+                    <td id="pod_dział_1"></td>
+                    <td id="pod_godz_1"></td>
+                </tr>
+                <tr>
+                    <td id="pod_dział_2"></td>
+                    <td id="pod_godz_2"></td>
+                </tr>
+                <tr>
+                    <td id="pod_dział_3"></td>
+                    <td id="pod_godz_3"></td>
+                </tr>
+            </table>
+            <p id="ile"></p>
+        </section>
     
     <script>    
         const main_btn = document.querySelector("#main_btn")
@@ -100,11 +122,29 @@
         const opis = document.querySelector("#opis")
         const display = document.querySelector("#wypisz")
 
-        
-
         function wypisz_wsio()
         {
-           display.innerHTML = ``
+           display.innerHTML += 
+           `
+           <tr>
+            <td><h2>Dział: ${dział.value}</h2></td>
+            <br>
+            <td>Temat: ${temat.value}</td>
+            </tr>
+            <tr>
+            <br>
+            <td>Dnia ${data.value}, o ilości godzin równej: ${godziny.value}</td>
+            <td>Pod nadzoerm: ${opiekun.value}</td>
+            </tr>
+            <tr>
+                <label> Sprawozdanie:
+                    <br>
+                    ${opis.value}
+                </label>
+            </tr>
+            <br>
+            `
+            czas()
             // for (const key in sprawoz)  {
             //     display.innerHTML += `<p> ${key} = ${sprawoz[key]}</p>`
             //     // display.innerHTML = temat.value
@@ -133,9 +173,20 @@
                 }
                     
         }
-        function ukryj(){
+        function ukryj_top(){
             let ukr = document.querySelector("#top")
             ukr.style.display = "none"
+
+        }
+        function ukryj_rap(){
+            let ukr = document.querySelector("#main")
+            ukr.style.display = "none"
+
+        }
+        function ukryj_pod(){
+
+            let ukr2 = document.querySelector("#summary")
+            ukr2.style.display = "none"
         }
         function wypisz(){
             let wyp = document.querySelector("#wypisz")
@@ -150,14 +201,15 @@
             let mn = document.querySelector("#main")
             mn.style.display = "flex"
         }
-        function ukryj_rap(){
-            let ukr = document.querySelector("#main")
-            ukr.style.display = "none"
+        
+        function wyp_sum(){
+            let mn = document.querySelector("#summary")
+            mn.style.display = "flex"
         }
 
         main_btn.addEventListener("click", function(evt){
             evt.preventDefault();
-            ukryj()
+            ukryj_top()
             wyp_main()
         })
         select();
@@ -172,12 +224,51 @@
         dane.addEventListener("click",function(evt){
             wypisz_dane()
             ukryj_rap()
+            ukryj_pod()
         })
         raport.addEventListener("click",function(evt){
-            
-            ukryj()
+            ukryj_pod()
+            ukryj_top()
             wyp_main()
         })
+        podsum.addEventListener("click", function(evt)
+        {
+            ukryj_top()
+            ukryj_rap()
+            wyp_sum()
+        })
+        let otdielenie = document.querySelector("#pod_dział_1")
+        let vremya = document.querySelector("#pod_godz_1")
+        let otdielenie2 = document.querySelector("#pod_dział_2")
+        let vremya2 = document.querySelector("#pod_godz_2")
+        let otdielenie3 = document.querySelector("#pod_dział_3")
+        let vremya3 = document.querySelector("#pod_godz_3")
+        let ile = document.querySelector("#ile")
+        let wykonanie = 140;
+
+        function czas()
+        {
+            wykonanie = wykonanie - godziny.value
+            console.log(wykonanie.value)
+            switch (dział.value)
+            {
+                case 'Strony internetowe':
+                 otdielenie.innerHTML += `${dział.value}`
+                 vremya.innerHTML += `${godziny.value}`
+                 break;
+                case 'Bazy danych':
+                 otdielenie2.innerHTML += `${dział.value}`
+                 vremya2.innerHTML += `${godziny.value}`
+                 break;
+                case 'Serwery':
+                 otdielenie3.innerHTML += `${dział.value}`
+                 vremya3.innerHTML += `${godziny.value}`
+                 break;
+
+            }
+            ile.innerHTML = `Do zrealizowania pozostało: ${wykonanie.value} godzin.`
+            
+        }
     </script>   
     <style>
         #main{
@@ -194,6 +285,13 @@
             align-content: center;
 
         }
+        #summary{
+            display: none;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: center;
+            
+        }
         .btn{
             width: 75px;
         }
@@ -206,6 +304,10 @@
         #row{
             display: inline;
         }
+        table, th, td {
+                 border:1px solid black;
+         }
+
     </style>
 </body>
 </html>
